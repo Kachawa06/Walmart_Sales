@@ -16,7 +16,7 @@ SELECT MAX(quantity) FROM walmart;
 -- Buniess problems 1
 -- Find Different Payment method and number of transactions, number of quantity sold
 
-SELECT payment_method, COUNT(*) as number_of_payments, SUM(quantity) as total_quantity_sold
+SELECT payment_method, COUNT(*) AS number_of_payments, SUM(quantity) AS total_quantity_sold
 FROM walmart
 GROUP BY payment_method;
 
@@ -26,11 +26,11 @@ GROUP BY payment_method;
 select *
 FROM
 (
-	SELECT Branch, category, AVG(rating) as avg_rating,
-	RANK() OVER(PARTITION BY Branch ORDER BY AVG(rating) DESC) as category_rank
+	SELECT Branch, category, AVG(rating) AS avg_rating,
+	RANK() OVER(PARTITION BY Branch ORDER BY AVG(rating) DESC) AS category_rank
 	FROM walmart
 	GROUP BY Branch, category
-) as rank_rating
+) AS rank_rating
 WHERE category_rank = 1;
 
 
@@ -39,17 +39,17 @@ WHERE category_rank = 1;
 
 SELECT * 
 FROM (
-	 SELECT Branch, DATE_FORMAT(STR_TO_DATE(date, '%d/%m/%Y'), '%W') as Day_Name, COUNT(*) as No_of_Tranction,
-     RANK() OVER(PARTITION BY Branch ORDER BY COUNT(*) DESC) as Ranking
+	 SELECT Branch, DATE_FORMAT(STR_TO_DATE(date, '%d/%m/%Y'), '%W') AS Day_Name, COUNT(*) AS No_of_Tranction,
+     RANK() OVER(PARTITION BY Branch ORDER BY COUNT(*) DESC) AS Ranking
 	 FROM walmart
      GROUP BY Branch, DATE_FORMAT(STR_TO_DATE(date, '%d/%m/%Y'), '%W')
-	 ) as rank_data
+	 ) AS rank_data
 WHERE Ranking = 1;
 
 -- Problem 3 Solution with CTE
 with Rank_data AS (
 	 SELECT Branch, DATE_FORMAT(STR_TO_DATE(date, '%d/%m/%Y'), '%W') AS Day_Name, COUNT(*) AS No_of_Tranction,
-     RANK() OVER(PARTITION BY Branch ORDER BY COUNT(*) DESC) as Ranking
+     RANK() OVER(PARTITION BY Branch ORDER BY COUNT(*) DESC) AS Ranking
 	 FROM walmart
      GROUP BY Branch, DATE_FORMAT(STR_TO_DATE(date, '%d/%m/%Y'), '%W')
 	 ) 
